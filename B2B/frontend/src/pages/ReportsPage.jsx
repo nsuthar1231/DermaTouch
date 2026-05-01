@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import axios from 'axios';
+import api from '../utils/api';
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer
 } from 'recharts';
@@ -52,7 +52,7 @@ const ReportsPage = () => {
   useEffect(() => {
     const getLatest = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/orders/latest-date');
+        const res = await api.get('/orders/latest-date');
         if (res.data.latestDate) {
           setFromDate(res.data.latestDate);
           setToDate(res.data.latestDate);
@@ -73,7 +73,7 @@ const ReportsPage = () => {
 
     setIsRefreshing(true);
     try {
-      let baseUrl = 'http://localhost:5000/api/orders';
+      let baseUrl = '';
       let params = `?range=${timeRange}`;
       
       if (timeRange === 'custom') {
@@ -85,8 +85,8 @@ const ReportsPage = () => {
       console.log(`[Reports] Loading: ${baseUrl}/stats${params}`);
 
       const [statsRes, analyticsRes] = await Promise.all([
-        axios.get(`${baseUrl}/stats${params}`),
-        axios.get(`${baseUrl}/analytics${params}`)
+        api.get(`/orders/stats${params}`),
+        api.get(`/orders/analytics${params}`)
       ]);
 
       setStats(statsRes.data);

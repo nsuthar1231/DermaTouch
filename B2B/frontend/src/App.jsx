@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, NavLink, Navigate } from 'react-router-dom';
-import axios from 'axios';
+import api from './utils/api';
 import { Package, Truck, LayoutDashboard, PlusCircle, Search, Bell, LogOut, Settings, BarChart2 } from 'lucide-react';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import SalesPage from './pages/SalesPage';
@@ -34,7 +34,7 @@ function AppContent() {
       setSelectedPOJourney(poNo);
       setJourneyLoading(true);
       try {
-        const { data } = await axios.get(`http://localhost:5000/api/orders/journey/${poNo}`);
+        const { data } = await api.get(`/orders/journey/${poNo}`);
         setJourneyData(data);
       } catch (error) {
         console.error('Error fetching PO journey', error);

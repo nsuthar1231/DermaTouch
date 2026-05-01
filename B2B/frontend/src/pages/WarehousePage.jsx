@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../utils/api';
 import { PackageOpen, X, CheckCircle, Clock } from 'lucide-react';
 
 const WarehousePage = () => {
@@ -20,7 +20,7 @@ const WarehousePage = () => {
 
   const fetchPendingOrders = async () => {
     try {
-      const { data } = await axios.get('http://localhost:5000/api/orders/pending-orders');
+      const { data } = await api.get('/orders/pending-orders');
       setOrders(data);
     } catch (error) {
       console.error('Error fetching pending orders', error);
@@ -61,7 +61,7 @@ const WarehousePage = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      await axios.put('http://localhost:5000/api/orders/update-packing', {
+      await api.put('/orders/update-packing', {
         PO_NO: selectedOrder.PO_NO,
         ...formData
       });
@@ -85,7 +85,7 @@ const WarehousePage = () => {
     submitData.append('file', bulkFile);
 
     try {
-      const { data } = await axios.post('http://localhost:5000/api/orders/bulk-warehouse', submitData, {
+      const { data } = await api.post('/orders/bulk-warehouse', submitData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
       setBulkMessage(data.message);

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import api from '../utils/api';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { Package, ShieldCheck, User, Lock, ArrowRight, Loader2 } from 'lucide-react';

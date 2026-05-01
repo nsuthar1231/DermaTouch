@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../utils/api';
 import { Plus, Clock, CheckCircle, X, Trash2 } from 'lucide-react';
 
 const SalesPage = () => {
@@ -21,7 +21,7 @@ const SalesPage = () => {
 
   const fetchRecentEntries = async () => {
     try {
-      const { data } = await axios.get('http://localhost:5000/api/orders/latest');
+      const { data } = await api.get('/orders/latest');
       setRecentEntries(data);
     } catch (error) {
       console.error('Error fetching recent entries', error);
@@ -35,7 +35,7 @@ const SalesPage = () => {
   const confirmDeletePO = async () => {
     try {
       setLoading(true);
-      await axios.delete(`http://localhost:5000/api/orders/by-po/${deletePOToConfirm}`);
+      await api.delete(`/orders/by-po/${deletePOToConfirm}`);
       setDeletePOToConfirm(null);
       fetchRecentEntries();
     } catch (error) {
@@ -69,7 +69,7 @@ const SalesPage = () => {
     setLoading(true);
     setMessage('');
     try {
-      await axios.post('http://localhost:5000/api/orders/create-order', formData);
+      await api.post('/orders/create-order', formData);
       setMessage('Order created successfully!');
       fetchRecentEntries();
       setTimeout(() => closeModal(), 1500);
@@ -90,7 +90,7 @@ const SalesPage = () => {
     submitData.append('file', bulkFile);
 
     try {
-      const { data } = await axios.post('http://localhost:5000/api/orders/bulk-sales', submitData, {
+      const { data } = await api.post('/orders/bulk-sales', submitData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
       setBulkMessage(data.message);

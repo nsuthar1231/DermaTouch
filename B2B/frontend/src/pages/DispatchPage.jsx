@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../utils/api';
 import { Truck, Upload, X, CheckCircle, PackageOpen } from 'lucide-react';
 
 const DispatchPage = () => {
@@ -20,7 +20,7 @@ const DispatchPage = () => {
 
   const fetchPackedOrders = async () => {
     try {
-      const { data } = await axios.get('http://localhost:5000/api/orders/packed-orders');
+      const { data } = await api.get('/orders/packed-orders');
       setOrders(data);
     } catch (error) {
       console.error('Error fetching packed orders', error);
@@ -65,7 +65,7 @@ const DispatchPage = () => {
     });
 
     try {
-      await axios.put('http://localhost:5000/api/orders/update-dispatch', submitData, {
+      await api.put('/orders/update-dispatch', submitData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
       setSelectedOrder(null);

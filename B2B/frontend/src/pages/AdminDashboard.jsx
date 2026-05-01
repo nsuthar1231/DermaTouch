@@ -39,7 +39,7 @@ const AdminDashboard = () => {
     setSelectedPOJourney(poNo);
     setJourneyLoading(true);
     try {
-      const { data } = await axios.get(`http://localhost:5000/api/orders/journey/${poNo}`);
+      const { data } = await api.get(`/orders/journey/${poNo}`);
       setJourneyData(data);
     } catch (error) {
       console.error('Error fetching PO journey', error);
